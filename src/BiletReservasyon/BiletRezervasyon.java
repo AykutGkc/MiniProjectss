@@ -29,11 +29,13 @@ Project: mesafeye ve şartlara göre otobüs bileti fiyatı hesaplayan uygulama
 
         //4-bilet objesi olusturalim
         Bilet bilet = new Bilet();
+        start(bus,bilet);
 
     }
 
-    public static void start(Bus bus){
+    public static void start(Bus bus, Bilet bilet){
         Scanner scan=new Scanner(System.in);
+        int select;
         do {
             //Kullanicidan bilgileri alalim
             System.out.println("Bilet Rezervasyonu Sistemine Hosgeldiniz...");
@@ -59,12 +61,58 @@ Project: mesafeye ve şartlara göre otobüs bileti fiyatı hesaplayan uygulama
             boolean check=type==1 || type==2;
             if (distance>0 && age>0 && check){
                 //9.Blet fiyatini hesaplayalim
+                bilet.distance=distance;
+                bilet.typeNo=type;
+                bilet.seatNo=seat;
+                //getTotal ile bilet pricesi set edelim
+                bilet.price=getTotal(bilet,age);
+                bilet.printBilet(bus);
 
             }else{
                 System.out.println("Hatali giris yaptiniz!!!");
             }
+            System.out.println("Yeni Islem icin herhangibir cikis icin 0 giriniz.");
+            select=scan.nextInt();
+        }while (select!=0);
+    }
 
-        }while (true);
+    private static double getTotal(Bilet bilet, int age){
+        double dist=bilet.distance;
+        int type=bilet.typeNo;
+        int seat= bilet.seatNo;
+        double total=0;
+        switch (type){
+            case 1:
+                if(seat%3==0){
+                    total=dist*1.2;
+                }else{
+                    total=dist*1;
+                }
+                System.out.println("Tutar :"+total);
+                break;
+            case 2:
+                if(seat%3==0){
+                    total=dist*2.4;
+                }else{
+                    total=dist*2;
+                }
+                System.out.println("Tutar :"+total);
+                total=total*0.8;
+                System.out.println("Çift yön indirimli Tutar :"+total);
+                break;
+        }
+        if(age<=12){
+            total=total*0.5;
+            System.out.println("yaş indirimli tutar :"+total);
+        }else if (age>12 && age<24){
+            total=total*0.9;
+            System.out.println("yaş indirimli tutar :"+total);
+        }else if(age>65){
+            total=total*0.7;
+            System.out.println("yaş indirimli tutar :"+total);
+        }
+        return total;
+
     }
 
 }
