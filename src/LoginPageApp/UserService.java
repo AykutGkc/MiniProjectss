@@ -32,7 +32,7 @@ public class UserService {
             System.out.println("E-mail bosluk iceremez!!!");
             isValid = false;
         } else if (!isContainsAt) {
-            System.out.println("E-mail @ dembolünü icermelidir!!!");
+            System.out.println("E-mail @ sembolünü icermelidir!!!");
             isValid = false;
         } else { //asd@gmail.com --> [asd,@gmail.com]
             String firstPart = email.split("@")[0];
@@ -73,7 +73,7 @@ public class UserService {
 
         if (isExistsSpace){
             System.out.println("Sifre bosluk iceremez");
-        }else if (isLenghtGtSix){
+        }else if (!isLenghtGtSix){
             System.out.println("Sifre en az 6 karakter icermelidir.");
         }else if (!isExistsUpperLetter){
             System.out.println("Sifre büyük harf icermelidir.");
@@ -97,8 +97,16 @@ public class UserService {
 
         //10-Username unique(benzersiz) olmali
         String username=getUsername();
-
-
+        //11-email bilgisi almak unique olmali,gecerli olmali
+        String email=getEmail();
+        //12-password gecerli olmali
+        String password=getPassword();
+        //13-user objesini olusturalim
+        User user=new User(name,username,email,password);
+        //14-user kayidi, listeye ekleme
+        this.userList.add(user);
+        System.out.println("Tebrikler.Isleminiz basari ile gerceklestirildi.");
+        System.out.println("Kullanici adi (veya email) ve sifreniz ile sisteme giris yapabilirsiniz.");
     }
     //10-a username almak
     private String getUsername (){
@@ -116,4 +124,66 @@ public class UserService {
       return username;
     }
 
+    //11-a kullanicidan email alma
+
+    private String getEmail(){
+        String email;
+        boolean isValid;
+        boolean existsEmail;
+        do {
+            System.out.println("Lütfen bir Email giriniz");
+            email=inp.next();//email gerli mi
+            isValid=validateEmail(email);//gecerli ise unique mi
+            existsEmail=getUser(email)!=null;
+            if (existsEmail){
+                System.out.println("Bu email daha zaten kayitli, farkli bir email deneyiniz.");
+                isValid=false;
+            }
+        }while(!isValid);
+
+
+
+        return email;
+    }
+    //12-a password olusturma
+    private String getPassword(){
+         String password;
+         boolean isValidPassword;
+
+         do {
+             System.out.println("Sifrenizi giriniz");
+             password=inp.next();//gecerli mi
+             isValidPassword=validatePassword(password);
+
+         }while(!isValidPassword);
+         return password;
+    }
+    //15-Email veya username ile giris yapma
+
+    public void login(){
+        System.out.println("Lütfen kullanici adi veya email giriniz");
+        String usernameOrEmail=inp.next();
+        //16-girilen deger ile useri bulma
+        if (getUser(usernameOrEmail)!=null) {
+            User user = getUser(usernameOrEmail);
+            //17-user bulundu ise sifre kontrolü
+            boolean isWrong=true;
+            while (isWrong){
+                System.out.println("Sifrenizi giriniz");
+                String password=inp.next();
+                //girilen sifre buldugumuz userin sifresi ile eslesiyor mu kontrolü
+                if (user.getPassword().equals(password)){
+                    System.out.println("Sisteme giris yaptiniz.");
+                    isWrong=false;
+                }else{
+                    System.out.println("Sifreniz yanlis,tekrar deneyiniz");
+                }
+            }
+
+        }else{
+            System.out.println("Sistemde kayitli kullanici adi veya email bulunamadi.");
+            System.out.println("Üye iseniz bilgilerinizi kontrol ederek tekrar deneyiniz, üye degilseniz lütfen üye olunuz");
+        }
+
+    }
 }

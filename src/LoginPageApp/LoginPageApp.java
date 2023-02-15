@@ -37,6 +37,7 @@ public class LoginPageApp {
 
     private static void start() {
         Scanner input = new Scanner(System.in);
+        UserService service=new UserService();
         //1-Kullaniciya islem menüsü gösterelim
         int select;
         do {
@@ -48,9 +49,12 @@ public class LoginPageApp {
             switch (select) {
                 case 1:
                     //register
+                  service.register();
+                    System.out.println(service.userList);
                     break;
                 case 2:
                     //login
+                    service.login();
                     break;
                 case 0:
                     System.out.println("Iyi Günler dielriz...");
