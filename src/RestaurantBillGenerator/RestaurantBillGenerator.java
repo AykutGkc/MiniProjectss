@@ -35,6 +35,7 @@ public class RestaurantBillGenerator {
     public static void getSelectionMenü() {
         Scanner inp = new Scanner(System.in);
         DishService dishService=new DishService();//Listede 10 tane dish var.
+        OrderService orderService=new OrderService();
         //2-Menü tekrar tekrar gösterilsin
         //3-Yiyecek icin class olustur
         //7-Siprais icin class olustur
@@ -58,12 +59,15 @@ public class RestaurantBillGenerator {
                     break;
                 case 2:
                     //Soparis olustur
+                    orderService.createOrder(dishService);
                     break;
                 case 3:
                     //siparis iptal
+                    orderService.deleteOrder();
                     break;
                 case 4:
                     //Hesap
+                    orderService.printBill();
                     break;
                 case 0:
                     System.out.println("Iyi Günler Dileriz.");

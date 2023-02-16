@@ -1,5 +1,6 @@
 package RestaurantBillGenerator;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,4 +43,22 @@ public class DishService {
 
         }
     }
+
+    //12-Code ile yemegi bulma
+    public Dish findByDishCode(int code){
+         if (code==0){
+             System.out.println("Ana menüye yönlendiriliyorsunuz");
+         }else {
+             for (Dish dish:this.dishList){
+                 if (dish.getCode()==code){
+                     return dish;
+                 }
+             }
+             System.out.println("Aradiginiz ürün bulunamadi.");
+         }
+         return null;
+
+    }
+
+
 }
