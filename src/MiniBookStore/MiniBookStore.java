@@ -1,5 +1,7 @@
 package MiniBookStore;
 
+import java.util.Scanner;
+
 public class MiniBookStore {
 
     /*
@@ -21,14 +23,40 @@ public class MiniBookStore {
         enter();
 
 
-
     }
 
     //1-product,book,notebook
     private static void enter() {
-
+        System.out.println("---------MiniBook Store-------");
+        Scanner inp = new Scanner(System.in);
+        int select;
+        do {
+            System.out.println("Ürün Yönetim Paneli");
+            System.out.println("1-Defterler");
+            System.out.println("2-Kitaplar");
+            System.out.println("0-Cikis");
+            select = inp.nextInt();
+            inp.nextLine();
+            ProductService service;
+            switch (select) {
+                case 1:
+                    service=new BookService();
+                    service.processMenü();
+                    break;
+                case 2:
+                    service=new NotebookService();
+                    service.processMenü();
+                    break;
+                case 0:
+                    System.out.println("Iyi Günler.");
+                    break;
+                default:
+                    System.out.println("Hatali Giris!!!");
+            }
+        } while (select != 0);
 
     }
 
 
 }
+
